@@ -1,0 +1,3 @@
+/Users/bb/nuclear/Workspace/14.im2video/build/CMakeFiles/rebuild_cache.dir
+/Users/bb/nuclear/Workspace/14.im2video/build/CMakeFiles/edit_cache.dir
+/Users/bb/nuclear/Workspace/14.im2video/build/CMakeFiles/im2video.dir

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<render version="2.0">
+    <effect name="FadeInOut" type="FrameInter" alphanum="30" duration="1.5" background="black">
+        <blocks>
+            <block>
+                <row>0-1</row>
+                <colume>0-0.5</colume>
+            </block>
+            <block>
+                <row>0-1</row>
+                <colume>0.5-1</colume>
+            </block>
+        </blocks>
+        <script pos="0">
+            <A>
+                <block_1>1,0,0,0,1,0,0,0,1</block_1>
+                <block_2>1,0,0,0,1,0,0,0,1</block_2>
+            </A>
+            <B>
+                <block_1>1,0,0,0,1,0,0,0,1</block_1>
+                <block_2>1,0,0,0,1,0,0,0,1</block_2>
+            </B>
+        </script>
+        <script pos="1">
+            <A>
+                <block_1>1,0,0,0,1,0,0,0,1</block_1>
+                <block_2>1,0,0,0,1,0,0,0,1</block_2>
+            </A>
+            <B>
+                <block_1>1,0,0,0,1,0,0,0,1</block_1>
+                <block_2>1,0,0,0,1,0,0,0,1</block_2>
+            </B>
+        </script>
+    </effect>
+</render>

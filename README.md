@@ -1,9 +1,10 @@
-#im2video
+# im2video
 
 An effective video maker from image sequence and with transition effects between frames.
 
 ## How to use
 Step 1. Configurate images and the transition between frames in `xml` file.
+
 Step 2. Execute the im2video with the configuration file and get output video file.
 
 ```

@@ -128,14 +128,6 @@ void mixrenderMaker(const char *from, const char *to, const char *effectname, co
     director.toVideo(output, percentHandle);
 }
 
-void copyright()
-{
-    printf("\
-im2video (Built by gcc-g++-builds project) 0.2.0 (alias Helen).\n\
-Copyright (C) 2014 cdvcloud.com, Inc.\n\
-This is nonfree software; connect to cdvcloud for using conditions.\n\
-Author: Charlie Niel, Zenghui Zhu.\n\n");
-}
 
 void help()
 {

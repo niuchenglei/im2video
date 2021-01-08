@@ -33,3 +33,22 @@ Here's an example of `EraseOut`:
 ```
 
 ## Guidance
+There are lots of tools could be used during making a effect, like photoshop, matlab, R. This project support several matlab functions to visualize the transition.
+
+`im2video` also provide an command `--predict ../effects/diagonal1/pts_a_1.txt` to calculate perspective matrix, this be used when the point coordinate of the animation is known, for example:
+we got the point transformation in file `pts_a_1.txt` in format `[x y x' y']`, `[x,y]` denotes the start coordinate and `[x',y']` denotes the end coordinate, for an image, we need at least three point to demonstrate the gesture in 3-d dimension world.
+```
+0,0,0,0.99
+1,0,0.01,0.99
+1,1,0.01,1
+0,1,0,1
+```
+
+The perspective matrix will looks like:
+```
+<INFO> Find 4 points
+<INFO> Perspective Transform matrix maybe:
+0.01000 0.00000 -0.00000 0.00000 0.01000 0.99000 0.00000 0.00000 1.00000
+<INFO> Affine Transform matrix maybe:
+0.01000 0.00000 0.00000 0.00000 0.01000 0.99000 0.00000 0.00000 1.00000
+```

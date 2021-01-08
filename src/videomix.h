@@ -20,25 +20,19 @@ typedef struct{
  *****************************************************************************/
 typedef void(*PROGRESS_HANDLE)(int, const char*);
 
-/*****************************************************************************
- *  视频混合生成器类
- *****************************************************************************/
 class VideoMixGenerator{
 public:
     /**
-     *  构造一个视频混合器.
+     *  Constructor.
      *
      *  @param   mix1
-     *           需要混合的起始视频.
      *
      *  @param   mix2
-     *           需要混合的结束视频.
      *
      *  @param   effect_name
-     *           混合采用的特效.
      *
      *  @param   fps
-     *           混合后视频的帧率，默认为0（表示与源视频一致）.
+     *           the fps of output video，keep same to source video by default.
      */
     VideoMixGenerator(const char *mix1, const char *mix2, const char *effect_name, unsigned int fps = 0);
     

@@ -1,5 +1,6 @@
 #include <math.h>
 #include <time.h>
+#include "util.h"
 #include "types.h"
 #include "im2video.h"
 #include <opencv2/opencv.hpp>
@@ -31,7 +32,8 @@ AnimationGenerator::AnimationGenerator(unsigned int fps):
     _rows(0),
     _cols(0),
     _channels(0),
-    _fps(fps){
+    _fps(fps),
+    _depth(0){
     // do construct
 }
 
@@ -43,6 +45,11 @@ AnimationGenerator::AnimationGenerator(std::vector<animation_t>& animations, uns
 
 AnimationGenerator::~AnimationGenerator(){
     // do free
+}
+
+void AnimationGenerator::setSize(unsigned int rows, unsigned int cols) {
+    _rows = rows;
+    _cols = cols;
 }
 
 void AnimationGenerator::setFps(unsigned int fps){
@@ -75,10 +82,11 @@ bool AnimationGenerator::toVideo(const char* vpath, PROGRESS_HANDLE func, int* p
         return false;
 
     // 0. time taken
-    clock_t s,e;
+    clock_t s, e;
 
     // 1. Get image size information from first image
-    image_t imgCanvas = loadImage(_animations[0].A);
+    int fill_type_a = getFillType(_animations[0].Fill, 0);
+    image_t imgCanvas = loadImage(_animations[0].A, fill_type_a);
     WARPCVMAT(imgCanvasMat, imgCanvas);     // warp struct to opencv mat
     // 准备宽高比
     char ext_name[8];
@@ -144,10 +152,13 @@ bool AnimationGenerator::toVideo(const char* vpath, PROGRESS_HANDLE func, int* p
 
         generator.setFrameNum(frames);
 
-        image_t imgA = loadImage(ani.A);
+        int fill_type_a = getFillType(ani.Fill, 0);
+        image_t imgA = loadImage(ani.A, fill_type_a);
         image_t imgB;
-        if(!effect.isNone())
-            imgB = loadImage(ani.B);
+        if(!effect.isNone()) {
+            int fill_type_b = getFillType(ani.Fill, 1);
+            imgB = loadImage(ani.B, fill_type_b);
+        }
         for(int j=0; j<frames; j++){
             bool _v = generator.GenerateFrame((unsigned char*)imgCanvas.data, 
                                               (unsigned char*)imgA.data, 
@@ -234,7 +245,7 @@ void AnimationGenerator::setMaxThreads(unsigned int max_threads){
     _max_threads = max_threads;
 }
 
-image_t AnimationGenerator::loadImage(const char* path){
+image_t AnimationGenerator::loadImage(const char* path, int fill_type){
     Mat img = imread(path);
     if(img.empty()){
         // read image failed, log it and quit.
@@ -245,14 +256,18 @@ image_t AnimationGenerator::loadImage(const char* path){
 
     void *ptr = img.data;
     Mat imgResize;
+    if (_channels == 0 && _depth == 0) {
+        _channels = img.channels();
+        _depth = img.depth();
+    }
     // if load the first image, then init the output video size with first image
     // that means the next image will resize to the size if it's size is not match.
-    if(_rows == 0 && _cols == 0 && _channels == 0){
+    if (_rows == 0 && _cols == 0) {
         _rows = img.rows;
         _cols = img.cols;
         _channels = img.channels();
         _depth = img.depth();
-    }else if(_rows != img.rows || _cols != img.cols){
+    } else if (_rows != img.rows || _cols != img.cols) {
         // calculate the scale
         float s1 = float(_rows)/float(img.rows), s2 = float(_cols)/float(img.cols);
         Size dsize;
@@ -263,34 +278,49 @@ image_t AnimationGenerator::loadImage(const char* path){
         Mat imgResizeSmall;
         resize(img, imgResizeSmall, dsize);
 
+        if (fill_type == 0) {
+            imgResize = Mat::zeros(_rows, _cols, CV_8UC3);
+        }
+        else if (fill_type == 1) {
+            imgResize = Mat(_rows, _cols, CV_8UC3, Scalar(255, 255, 255));
+        } else if (fill_type == 2) {
+            // take gaussian blus as background for blank
+            cv::Mat imgBig;
+            resize(imgResizeSmall, imgBig, Size(imgResizeSmall.cols*3, imgResizeSmall.rows*3));
+
+            int x = imgBig.cols / 2 - _cols / 2, y = imgBig.rows / 2 - _rows / 2;
+            cv::Rect roi(x, y, _cols, _rows);
+            cv::Mat imgBack = imgBig(roi);
+            GaussianBlur(imgBack, imgResize, Size(21, 21), 5, 5);
+        }
+
         // resize the image with hei/wid scale equal method
-        imgResize = Mat::zeros(_rows, _cols, CV_8UC3);
         unsigned int i,j,k,idx1,idx2,offset_row, offset_col;
-        if(s1 < s2){
+        if (s1 < s2){
             offset_row = 0;
             offset_col = float(_cols-imgResizeSmall.cols)/2.0;
-        }else{
+        } else {
             offset_row = float(_rows-imgResizeSmall.rows)/2.0;
             offset_col = 0;
         }
         unsigned char *ptr1 = imgResize.data, *ptr2 = imgResizeSmall.data;
-        for(i=0; i<imgResizeSmall.rows; i++){
-            for(j=0; j<imgResizeSmall.cols; j++){
+        for (i=0; i<imgResizeSmall.rows; i++){
+            for (j=0; j<imgResizeSmall.cols; j++){
                 idx1 = (i+offset_row)*_cols+(j+offset_col);
                 idx2 = i*imgResizeSmall.cols+j;
-                for(k=0; k<_channels; k++)
+                for (k=0; k<_channels; k++)
                     ptr1[idx1*_channels+k] = ptr2[idx2*_channels+k];
             }
         }
         ptr = imgResize.data;
-    }else if(_channels != img.channels()){
+    } else if (_channels != img.channels()) {
         // resize the channel
     }
 
     image_t t; t.data = NULL;
-    if(_depth != CV_8U){
+    if (_depth != CV_8U){
         char msg[512];
-        sprintf(msg, "The image depth[%d] is not support. (only CV_8U image is valid)", _depth);
+        sprintf(msg, "The image depth[%d] is not support. (only CV_8U(%d) image is valid)", _depth, CV_8U);
         LOG5CXX_FATAL(msg, 110);
     }
 
@@ -298,10 +328,10 @@ image_t AnimationGenerator::loadImage(const char* path){
     t.cols = _cols;
     t.channels = _channels;
     t.bytesPerElement = 1;  // 1 byte
-    try{
+    try {
         t.data = malloc(_rows*_cols*_channels);
         memcpy(t.data, ptr, _rows*_cols*_channels);
-    }catch(...){
+    } catch(...) {
         char msg[512];
         sprintf(msg, "Memory malloc or memcpy failed, operate memory size is [%d]=[%d MB].", _rows*_cols*_channels*_depth, _rows*_cols*_channels*_depth/1024/1024);
         LOG5CXX_FATAL(msg, 210);
@@ -348,4 +378,22 @@ void AnimationGenerator::progress(int* percentage, int animation_num, int frame_
     float fra_base = ani_base/frame_num;
     float v = ani_base*i + fra_base*j;
     *percentage = v;
+}
+
+int AnimationGenerator::getFillType(const std::string& type, int index) {
+    std::vector<std::string> vec;
+    std::string text = string(type);
+    std::string dim = ",";
+    split(text, dim, &vec);
+
+    if (vec.size() < 2)
+        return 2;
+
+    if (vec[index] == "white") 
+        return 1;
+    else if (vec[index] == "black") 
+        return 0;
+    else if (vec[index] == "blur") 
+        return 2;
+    else return 2;
 }

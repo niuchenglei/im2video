@@ -13,6 +13,7 @@ typedef struct{
     char EffectName[64];        // Effect name, a series of fixed A image will output if it's value is "NONE" or "none"
     float Duration;             // How long the effect, unit: second
     bool valid;                 // Whether the value is valid or not
+    std::string Fill;           // Fill the blank for A and B with w:white, b:black, r:blur
 } animation_t;
 
 /*****************************************************************************
@@ -21,9 +22,9 @@ typedef struct{
 typedef void(*PROGRESS_HANDLE)(int, const char*);
 
 /*****************************************************************************
- *  动画生成器类，负责从脚本生成AVI视频
+ *  Generate AVI video from script
  *****************************************************************************/
-class AnimationGenerator{
+class AnimationGenerator {
 public:
     /**
      *  Construct a AnimationGenerator.
@@ -31,7 +32,7 @@ public:
      *  @param   fps
      *           The video fps.
      */
-    AnimationGenerator(unsigned int fps=25);
+    AnimationGenerator(unsigned int fps = 25);
     
     /**
      *  Construct a AnimationGenerator.
@@ -42,7 +43,7 @@ public:
      *  @param   fps
      *           The video fps.
      */
-    AnimationGenerator(std::vector<animation_t>& animations, unsigned int fps=25);  // 15/24
+    AnimationGenerator(std::vector<animation_t>& animations, unsigned int fps = 25);  // 15/24
 
     /**
      *  Destructor
@@ -56,6 +57,14 @@ public:
      *           The video fps.
      */
     void setFps(unsigned int fps);
+
+    /**
+     *  Set the frame size.
+     *
+     *  @param   fps
+     *           The video fps.
+     */
+    void setSize(unsigned int rows, unsigned int cols);
 
     /**
      *  Set the video animation descriptors.
@@ -96,14 +105,16 @@ public:
      */
     void setMaxThreads(unsigned int max_threads);
 
-public:
+
+private:
     AnimationGenerator(const AnimationGenerator& rhs);
     AnimationGenerator& operator=(const AnimationGenerator& rhs);
 
-    image_t loadImage(const char*);
+    image_t loadImage(const char*, int fill_type = 0);
     void releaseImage(image_t&);
     void log(const char*);
     void progress(int* percentage, int animation_num, int frame_num, int i, int j);
+    int getFillType(const std::string& type, int index);
 
     unsigned int _rows, _cols, _channels, _depth, _max_threads;
     unsigned int _fps;

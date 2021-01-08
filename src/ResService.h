@@ -1,13 +1,3 @@
-/*
- * This file is part of Onair media platform
- *
- * Onair is commercial software; you can not redistribute it and/or
- * modify it without the permission; either version 0.1 of the 
- * License, or (at your option) any later version.
- *
- * Any question contact with Onair support
- */
-
 #ifndef RESSERVICE_H
 #define RESSERVICE_H
 

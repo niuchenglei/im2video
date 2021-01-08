@@ -40,7 +40,7 @@ add_library(glog SHARED IMPORTED)
 add_library(iconv SHARED IMPORTED)
 set_property(TARGET blas PROPERTY IMPORTED_LOCATION /usr/local/opt/lapack/lib/libblas.dylib)
 set_property(TARGET lapack PROPERTY IMPORTED_LOCATION /usr/local/opt/lapack/lib/liblapack.dylib)
-set_property(TARGET levmar PROPERTY IMPORTED_LOCATION /usr/local/lib/liblevmar.a)
+set_property(TARGET levmar PROPERTY IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/../deps/lib/liblevmar.a)
 set_property(TARGET glog PROPERTY IMPORTED_LOCATION /usr/local/opt/glog/lib/libglog.dylib)
 set_property(TARGET iconv PROPERTY IMPORTED_LOCATION /usr/local/opt/libiconv/lib/libiconv.dylib)
 #############################################
@@ -82,4 +82,6 @@ ${PROJECT_SOURCE_DIR}/../deps/include
 /usr/local/opt/opencv@2/include
 /usr/local/include
 )
+
+
 #############################################

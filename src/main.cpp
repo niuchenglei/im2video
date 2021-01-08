@@ -146,7 +146,7 @@ void help()
     printf("\
 Usage: im2video [options...] <file>\n\
 Options:\n\
- -a/--videopath <file> Output video path to save the result video\n\
+ -a/--out <file> Output video path to save the result video\n\
  -A/--script <file> Script file full path\n\
  -b/--maxthread <number> Maximum number threads will be use\n\
  -B/--mixfrom <file> Mix video from 'from' to 'to' with effect\n\
@@ -161,7 +161,7 @@ Options:\n\
 static char *optstring = "a:A:b:B:c:C:hvp:";
 static struct option long_options[] = 
 {         //  no_argument--0,required_argument--1,optional_argument--2
-    {"videopath", 1, NULL, 'a'},
+    {"out", 1, NULL, 'a'},
     {"script",    1, NULL, 'A'},
     {"maxthread", 1, NULL, 'b'},
     {"mixfrom",   1, NULL, 'B'},

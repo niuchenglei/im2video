@@ -5,55 +5,139 @@
             <name>none</name>
             <from>1.jpg</from>
             <to>1.jpg</to>
-            <duration>1.2</duration>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>fadescale</name>
+            <from>1.jpg</from>
+            <to>2.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>2.jpg</from>
+            <to>2.jpg</to>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>diagonal2</name>
             <from>2.jpg</from>
             <to>3.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>none</name>
             <from>3.jpg</from>
             <to>3.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>flyout</name>
             <from>3.jpg</from>
             <to>4.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>none</name>
             <from>4.jpg</from>
             <to>4.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>mosaic</name>
             <from>4.jpg</from>
             <to>5.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>none</name>
             <from>5.jpg</from>
             <to>5.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>randline</name>
             <from>5.jpg</from>
             <to>6.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
         </effect>
         <effect>
             <name>none</name>
             <from>6.jpg</from>
             <to>6.jpg</to>
-            <duration>2</duration>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>conveyer</name>
+            <from>6.jpg</from>
+            <to>7.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>7.jpg</from>
+            <to>7.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>pushup</name>
+            <from>7.jpg</from>
+            <to>8.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>8.jpg</from>
+            <to>8.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>thunder</name>
+            <from>8.jpg</from>
+            <to>9.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>9.jpg</from>
+            <to>9.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>wave</name>
+            <from>9.jpg</from>
+            <to>10.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>10.jpg</from>
+            <to>10.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>shapeclock</name>
+            <from>10.jpg</from>
+            <to>11.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>11.jpg</from>
+            <to>11.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>shaperhombus</name>
+            <from>11.jpg</from>
+            <to>12.jpg</to>
+            <duration>1.5</duration>
+        </effect>
+        <effect>
+            <name>none</name>
+            <from>12.jpg</from>
+            <to>12.jpg</to>
+            <duration>1.5</duration>
         </effect>
     </animation>
 </ConfigurationSettings>

@@ -8,7 +8,7 @@
             <duration>1.2</duration>
         </effect>
         <effect>
-            <name>fadescale</name>
+            <name>diagonal2</name>
             <from>2.jpg</from>
             <to>3.jpg</to>
             <duration>2</duration>

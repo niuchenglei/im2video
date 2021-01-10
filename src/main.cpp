@@ -45,32 +45,32 @@ using namespace cv;
 #endif
 
 static char pp[][1024] = {
-    "                           %3d %% %s\r",
-    "#                          %3d %% %s\r",
-    "##                         %3d %% %s\r",
-    "###                        %3d %% %s\r",
-    "####                       %3d %% %s\r",
-    "#####                      %3d %% %s\r",
-    "######                     %3d %% %s\r",
-    "#######                    %3d %% %s\r",
-    "########                   %3d %% %s\r",
-    "#########                  %3d %% %s\r",
-    "##########                 %3d %% %s\r",
-    "###########                %3d %% %s\r",
-    "############               %3d %% %s\r",
-    "#############              %3d %% %s\r",
-    "##############             %3d %% %s\r",
-    "###############            %3d %% %s\r",
-    "################           %3d %% %s\r",
-    "#################          %3d %% %s\r",
-    "##################         %3d %% %s\r",
-    "###################        %3d %% %s\r",
-    "####################       %3d %% %s\r",
-    "#####################      %3d %% %s\r",
-    "######################     %3d %% %s\r",
-    "#######################    %3d %% %s\r",
-    "########################   %3d %% %s\r",
-    "#########################  %3d %% %s\r"
+    "|                           |%3d %% %s\r",
+    "|#                          |%3d %% %s\r",
+    "|##                         |%3d %% %s\r",
+    "|###                        |%3d %% %s\r",
+    "|####                       |%3d %% %s\r",
+    "|#####                      |%3d %% %s\r",
+    "|######                     |%3d %% %s\r",
+    "|#######                    |%3d %% %s\r",
+    "|########                   |%3d %% %s\r",
+    "|#########                  |%3d %% %s\r",
+    "|##########                 |%3d %% %s\r",
+    "|###########                |%3d %% %s\r",
+    "|############               |%3d %% %s\r",
+    "|#############              |%3d %% %s\r",
+    "|##############             |%3d %% %s\r",
+    "|###############            |%3d %% %s\r",
+    "|################           |%3d %% %s\r",
+    "|#################          |%3d %% %s\r",
+    "|##################         |%3d %% %s\r",
+    "|###################        |%3d %% %s\r",
+    "|####################       |%3d %% %s\r",
+    "|#####################      |%3d %% %s\r",
+    "|######################     |%3d %% %s\r",
+    "|#######################    |%3d %% %s\r",
+    "|########################   |%3d %% %s\r",
+    "|#########################  |%3d %% %s\r"
 };
 
 /**
@@ -177,28 +177,6 @@ void predict_transform(const char *pts_file);
 
 int main(int argc, char** argv)
 {
-    /*
-    cv::Mat img = cv::imread("/Users/chenglei/nuclear/im2video/example/img/cre1.jpeg");
-    Size dsize = Size(img.cols, img.rows);
-    int width = dsize.width / 3;
-    int height = dsize.height / 3;
-    cv::Rect roi(width, height, width, height);
-    cv::Mat imgTiny = img(roi);
-
-    cv::Mat imgResize;
-    resize(imgTiny, imgResize, dsize);
-    cv::Mat imgBlur;
-    int i = 200;
-    //medianBlur(imgResize, imgBlur, 21);
-    GaussianBlur(imgResize, imgBlur, Size(21, 21), 5, 5);
-
-    imshow("nn", imgBlur);
-    int c = waitKey(1500000);
-
-    return 0;
-*/
-
-
     char _videopath[MAX_PATH], _script[MAX_PATH], _maxthread[64], _predict_file[MAX_PATH], _mixfrom[MAX_PATH], _mixto[MAX_PATH], _effectname[64];
     strcpy(_videopath, ""); strcpy(_script, ""); strcpy(_maxthread, ""); strcpy(_predict_file, ""); strcpy(_mixfrom, ""); strcpy(_mixto, ""); strcpy(_effectname, "");
 
@@ -310,4 +288,25 @@ void predict_transform(const char *pts_file)
     printf("\n");
 
     free(data);
+}
+
+void testCV() {
+    cv::Mat img = cv::imread("xxx.jpg");
+    Size dsize = Size(img.cols, img.rows);
+    int width = dsize.width / 3;
+    int height = dsize.height / 3;
+    cv::Rect roi(width, height, width, height);
+    cv::Mat imgTiny = img(roi);
+
+    cv::Mat imgResize;
+    resize(imgTiny, imgResize, dsize);
+    cv::Mat imgBlur;
+    int i = 200;
+    //medianBlur(imgResize, imgBlur, 21);
+    GaussianBlur(imgResize, imgBlur, Size(21, 21), 5, 5);
+
+    imshow("nn", imgBlur);
+    int c = waitKey(15000);
+
+    return 0;
 }

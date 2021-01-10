@@ -290,7 +290,7 @@ void predict_transform(const char *pts_file)
     free(data);
 }
 
-void testCV() {
+int testCV() {
     cv::Mat img = cv::imread("xxx.jpg");
     Size dsize = Size(img.cols, img.rows);
     int width = dsize.width / 3;

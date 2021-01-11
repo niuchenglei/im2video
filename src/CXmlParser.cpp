@@ -65,11 +65,20 @@ bool CXmlParser::ParseXML()
     char tmp[16];
     while (markup.FindElem(XML_NODE_EFFECT)) {
         animation_t aniInfo;
+
+        aniInfo.fillA = markup.GetAttrib("filla");
+        aniInfo.fillB = markup.GetAttrib("fillb");
+        if (aniInfo.fillA == "")
+            aniInfo.fillA = "blur";
+        if (aniInfo.fillB == "")
+            aniInfo.fillB = "blur";
+
         bResult = markup.IntoElem(); // into "effect" node
         if (!bResult) {
             bResult = markup.OutOfElem(); // outof "effect" node
-           continue;
+            continue;
         }
+
         std::stringstream ss;
         //1.取出 Name值
         ss << ReadItem(markup, XML_NODE_NAME);

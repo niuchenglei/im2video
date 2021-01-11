@@ -13,7 +13,7 @@ typedef struct{
     char EffectName[64];        // Effect name, a series of fixed A image will output if it's value is "NONE" or "none"
     float Duration;             // How long the effect, unit: second
     bool valid;                 // Whether the value is valid or not
-    std::string Fill;           // Fill the blank for A and B with w:white, b:black, r:blur
+    std::string fillA, fillB;   // Fill the blank for A and B with w:white, b:black, r:blur
 } animation_t;
 
 /*****************************************************************************
@@ -110,11 +110,10 @@ private:
     AnimationGenerator(const AnimationGenerator& rhs);
     AnimationGenerator& operator=(const AnimationGenerator& rhs);
 
-    image_t loadImage(const char*, int fill_type = 0);
+    image_t loadImage(const char*, const std::string& fill_type);
     void releaseImage(image_t&);
     void log(const char*);
     void progress(int* percentage, int animation_num, int frame_num, int i, int j);
-    int getFillType(const std::string& type, int index);
 
     unsigned int _rows, _cols, _channels, _depth, _max_threads;
     unsigned int _fps;

@@ -85,8 +85,7 @@ bool AnimationGenerator::toVideo(const char* vpath, PROGRESS_HANDLE func, int* p
     clock_t s, e;
 
     // 1. Get image size information from first image
-    int fill_type_a = getFillType(_animations[0].Fill, 0);
-    image_t imgCanvas = loadImage(_animations[0].A, fill_type_a);
+    image_t imgCanvas = loadImage(_animations[0].A, _animations[0].fillA);
     WARPCVMAT(imgCanvasMat, imgCanvas);     // warp struct to opencv mat
     // 准备宽高比
     char ext_name[8];
@@ -152,12 +151,10 @@ bool AnimationGenerator::toVideo(const char* vpath, PROGRESS_HANDLE func, int* p
 
         generator.setFrameNum(frames);
 
-        int fill_type_a = getFillType(ani.Fill, 0);
-        image_t imgA = loadImage(ani.A, fill_type_a);
+        image_t imgA = loadImage(ani.A, ani.fillA);
         image_t imgB;
         if(!effect.isNone()) {
-            int fill_type_b = getFillType(ani.Fill, 1);
-            imgB = loadImage(ani.B, fill_type_b);
+            imgB = loadImage(ani.B, ani.fillB);
         }
         for(int j=0; j<frames; j++){
             bool _v = generator.GenerateFrame((unsigned char*)imgCanvas.data, 
@@ -245,7 +242,7 @@ void AnimationGenerator::setMaxThreads(unsigned int max_threads){
     _max_threads = max_threads;
 }
 
-image_t AnimationGenerator::loadImage(const char* path, int fill_type){
+image_t AnimationGenerator::loadImage(const char* path, const std::string& fill_type){
     Mat img = imread(path);
     if(img.empty()){
         // read image failed, log it and quit.
@@ -253,7 +250,7 @@ image_t AnimationGenerator::loadImage(const char* path, int fill_type){
         sprintf(msg, "Read image file failed, image data not exist or error. [%s]", path);
         LOG5CXX_FATAL(msg, 110);
     }
-
+    
     void *ptr = img.data;
     Mat imgResize;
     if (_channels == 0 && _depth == 0) {
@@ -278,12 +275,11 @@ image_t AnimationGenerator::loadImage(const char* path, int fill_type){
         Mat imgResizeSmall;
         resize(img, imgResizeSmall, dsize);
 
-        if (fill_type == 0) {
+        if (fill_type == "black") {
             imgResize = Mat::zeros(_rows, _cols, CV_8UC3);
-        }
-        else if (fill_type == 1) {
+        } else if (fill_type == "white") {
             imgResize = Mat(_rows, _cols, CV_8UC3, Scalar(255, 255, 255));
-        } else if (fill_type == 2) {
+        } else if (fill_type == "blur") {
             // take gaussian blus as background for blank
             cv::Mat imgBig;
             resize(imgResizeSmall, imgBig, Size(imgResizeSmall.cols*3, imgResizeSmall.rows*3));
@@ -378,22 +374,4 @@ void AnimationGenerator::progress(int* percentage, int animation_num, int frame_
     float fra_base = ani_base/frame_num;
     float v = ani_base*i + fra_base*j;
     *percentage = v;
-}
-
-int AnimationGenerator::getFillType(const std::string& type, int index) {
-    std::vector<std::string> vec;
-    std::string text = string(type);
-    std::string dim = ",";
-    split(text, dim, &vec);
-
-    if (vec.size() < 2)
-        return 2;
-
-    if (vec[index] == "white") 
-        return 1;
-    else if (vec[index] == "black") 
-        return 0;
-    else if (vec[index] == "blur") 
-        return 2;
-    else return 2;
 }

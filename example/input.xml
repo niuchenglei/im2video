@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <ConfigurationSettings>
     <animation name="abc" height="748" width="1320" prefix="/Users/chenglei/nuclear/im2video/example/img/">
-        <effect>
+        <effect filla="white" fillb="white">
             <name>none</name>
             <from>1.jpg</from>
             <to>1.jpg</to>
             <duration>1.5</duration>
         </effect>
-        <effect>
+        <effect filla="white">
             <name>fadescale</name>
             <from>1.jpg</from>
             <to>2.jpg</to>
